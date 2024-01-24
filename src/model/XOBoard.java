@@ -22,7 +22,7 @@ public class XOBoard {
         return board[x][y];
     }
 
-    public void setMarker(int x, int y, Marker marker) {
-        board[x][y] = marker;
+    public void setMarker(int x, int y, MarkerType markerType) {
+        board[x][y].setMarkerType(markerType);
     }
 }

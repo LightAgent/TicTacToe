@@ -1,12 +1,14 @@
 package controller;
-import model.XOBoard;
+import model.*;
 
 public abstract class Controller {
-    protected boolean xTurn;
+
+    protected boolean xTurn = true;
     protected boolean gameEnded;
     protected XOBoard board = new XOBoard();
     protected int validSqu = 9;
-    protected boolean checkWinner(XOBoard board) {
+
+    protected boolean checkWin() {
 
         for (int i = 0; i < 3; i++) {
             if (board.getMarker(i, 0) == board.getMarker(i, 1) && board.getMarker(i, 1) == board.getMarker(i, 2) ||
@@ -18,4 +20,24 @@ public abstract class Controller {
             return true;
         return false;
     }
+
+    protected boolean checkDraw() {
+        return validSqu == 0;
+    }
+
+    protected void toggleTurn() {
+        xTurn = ! xTurn;
+    }
+    protected void play(Position position) {
+        board.setMarker(position.getX(),position.getY(),xTurn? MarkerType.X :MarkerType.O );
+        // check win or draw 
+        if(checkWin()){
+            // winng opration 
+        }
+        if(checkDraw()){
+            // draw
+        }
+        toggleTurn();
+    }
+    
 }
