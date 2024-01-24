@@ -8,6 +8,8 @@ public abstract class Controller {
     protected XOBoard board = new XOBoard();
     protected int validSqu = 9;
 
+    abstract protected void play(Position position);
+
     protected boolean checkWin() {
 
         for (int i = 0; i < 3; i++) {
@@ -28,16 +30,7 @@ public abstract class Controller {
     protected void toggleTurn() {
         xTurn = ! xTurn;
     }
-    protected void play(Position position) {
-        board.setMarker(position.getX(),position.getY(),xTurn? MarkerType.X :MarkerType.O );
-        // check win or draw 
-        if(checkWin()){
-            // winng opration 
-        }
-        if(checkDraw()){
-            // draw
-        }
-        toggleTurn();
-    }
+    
+
     
 }
