@@ -1,5 +1,6 @@
 package controller;
 
+import model.Caretaker;
 import model.GameState;
 import model.MarkerType;
 import model.Position;
@@ -12,7 +13,9 @@ public class SinglePlayerController extends Controller {
     private Position defense = new Position(-1, -1);
     private boolean attackFlag = false;
     private boolean defenseFlag = false;
-
+    public SinglePlayerController(Caretaker caretaker){
+        super(caretaker);
+    }
     private void computerMove() {
         if (board.getMarker(1, 1).getMarkerType().equals(MarkerType.EMPTY)){
             board.setMarker(1, 1, MarkerType.O);

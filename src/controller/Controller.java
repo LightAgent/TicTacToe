@@ -7,8 +7,11 @@ public abstract class Controller {
     protected boolean gameEnded;
     protected XOBoard board = new XOBoard();
     protected int remainingSquares = 9;
-
+    private Caretaker caretaker;
     abstract public GameState play(Position position);
+    public Controller(Caretaker caretaker){
+        this.caretaker = caretaker;
+    }
 
     protected boolean checkWin() {
         for (int i = 0; i < 3; i++) {

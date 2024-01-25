@@ -2,6 +2,10 @@ package controller;
 import model.*;
 public class TwoPlayerController extends Controller{
     
+    public TwoPlayerController(Caretaker caretaker){
+        super(caretaker);
+    }
+
 	@Override
     public GameState play(Position position) {
         System.out.println("Position X: "+position.getX()+" Y: "+position.getY());

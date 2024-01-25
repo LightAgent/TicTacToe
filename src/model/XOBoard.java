@@ -25,4 +25,16 @@ public class XOBoard {
     public void setMarker(int x, int y, MarkerType markerType) {
         board[x][y].setMarkerType(markerType);
     }
+    public static class Memento {
+        private XOBoard xoBoard;
+
+        public Memento(XOBoard board) {
+            this.xoBoard = board;
+        }
+
+        public XOBoard getXoBoard() {
+            return xoBoard;
+        }
+    
+    }
 }
