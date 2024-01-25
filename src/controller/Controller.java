@@ -1,5 +1,6 @@
 package controller;
 import model.*;
+import model.XOBoard.Memento;
 
 public abstract class Controller {
 
@@ -7,12 +8,26 @@ public abstract class Controller {
     protected boolean gameEnded;
     protected XOBoard board = new XOBoard();
     protected int remainingSquares = 9;
-    private Caretaker caretaker;
+    protected Caretaker caretaker;
+
     abstract public GameState play(Position position);
+
     public Controller(Caretaker caretaker){
         this.caretaker = caretaker;
     }
-
+    public void undoLastMove(){
+        Memento lastMove = caretaker.undo();
+        board = lastMove.getXoBoard();
+        // System.out.println("UNDOING =>>>>>>>>>>>>.");
+        // board.printBoard();
+        System.out.println(xTurn);
+        toggleTurn();
+    }
+    public void saveMove(){
+        // board.printBoard();
+        Memento memento = new Memento((XOBoard) board.clone());
+        caretaker.saveMove(memento);
+    }
     protected boolean checkWin() {
         for (int i = 0; i < 3; i++) {
             if ((board.getMarker(i, 0).getMarkerType() == board.getMarker(i, 1).getMarkerType() && board.getMarker(i, 1).getMarkerType() == board.getMarker(i, 2).getMarkerType())&& board.getMarker(i, 0).getMarkerType()!= MarkerType.EMPTY ||
@@ -29,7 +44,7 @@ public abstract class Controller {
         return remainingSquares == 0;
     }
 
-    protected void toggleTurn() {
+    public void toggleTurn() {
         xTurn = ! xTurn;
     }
     

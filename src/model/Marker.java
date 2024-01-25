@@ -5,6 +5,9 @@ public class Marker {
     public Marker(){
         markerType = MarkerType.EMPTY;
     }
+    public Marker(MarkerType markerType){
+        this.markerType = markerType;
+    }
     public MarkerType getMarkerType() {
         return markerType;
     }

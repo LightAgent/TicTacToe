@@ -13,7 +13,6 @@ public class GameWindow extends JFrame {
     private static final int SQUARE_DIMENSION = 150;
     private Controller controller;
     private JButton undoButton = new JButton("Undo");
-    private JButton redoButton = new JButton("Redo");
     private XOButton[][] xoButtons;
     private boolean gameEnded;
 
@@ -21,6 +20,17 @@ public class GameWindow extends JFrame {
         this.controller = controller;
         this.xoButtons = new XOButton[3][3];
         initializeWindow();
+        initializeUndoButton();
+    }
+
+    private void initializeUndoButton() {
+        undoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                controller.undoLastMove();
+                redrawBoard(controller.getBoard());
+            }
+        });
     }
 
     private void redrawBoard(XOBoard board) {
@@ -64,9 +74,11 @@ public class GameWindow extends JFrame {
                         if (state == GameState.WON) {
                             JOptionPane.showMessageDialog(null, controller.getCurrentTurn() == MarkerType.X ? "X Won" : "O Won", "Game Won", JOptionPane.INFORMATION_MESSAGE);
                             gameEnded = true;
+                            undoButton.setEnabled(false);
                         } else if (state == GameState.DRAW) {
                             JOptionPane.showMessageDialog(null, "Draw", "Game Draw", JOptionPane.INFORMATION_MESSAGE);
                             gameEnded = true;
+                            undoButton.setEnabled(false);
                         }
                     }
                 });
@@ -77,7 +89,6 @@ public class GameWindow extends JFrame {
         // Create a subpanel for the additional buttons
         JPanel subPanel = new JPanel();
         subPanel.add(undoButton);
-        subPanel.add(redoButton);
 
         // Add the button grid and subpanel to the main panel
         add(buttonPanel, BorderLayout.CENTER);

@@ -40,17 +40,18 @@ public class SinglePlayerController extends Controller {
     public GameState play(Position position) {
         System.out.println("Position X: "+position.getX()+" Y: "+position.getY());
 
+        saveMove();
         board.setMarker(position.getX(), position.getY(),MarkerType.X);
         remainingSquares--;
-        // check game state
+        // Check game state
         if(getGameState()!=GameState.IN_PROGRESS) return getGameState();
-        
-        // computer's turn
+        // Computer's turn
+        toggleTurn();
         computerMove();
         remainingSquares--;
-        toggleTurn();
         if(getGameState()!=GameState.IN_PROGRESS) return getGameState();
-
+        toggleTurn();
+        
 
         return getGameState();
     }
@@ -118,21 +119,25 @@ public class SinglePlayerController extends Controller {
     private boolean checkDigonalDefense() {
         if (board.getMarker(1, 1).getMarkerType() == checkerX) {
             if (board.getMarker(2, 2).getMarkerType() == checkerX) {
+                if(board.getMarker(0, 0).getMarkerType()!=MarkerType.EMPTY) return false;
                 defense.setX(0);
                 defense.setY(0);
                 defenseFlag = true;
                 return true;
             } else if (board.getMarker(0, 0).getMarkerType() == checkerX) {
+                if(board.getMarker(2, 2).getMarkerType()!=MarkerType.EMPTY) return false;
                 defense.setX(2);
                 defense.setY(2);
                 defenseFlag = true;
                 return true;
             } else if (board.getMarker(2, 0).getMarkerType() == checkerX) {
+                if(board.getMarker(0, 2).getMarkerType()!=MarkerType.EMPTY) return false;
                 defense.setX(0);
                 defense.setY(2);
                 defenseFlag = true;
                 return true;
             } else if (board.getMarker(0, 2).getMarkerType() == checkerX) {
+                if(board.getMarker(2, 0).getMarkerType()!=MarkerType.EMPTY) return false;
                 defense.setX(2);
                 defense.setY(0);
                 defenseFlag = true;
