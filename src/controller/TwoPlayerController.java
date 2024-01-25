@@ -1,5 +1,5 @@
 package controller;
-
+import model.*;
 public class TwoPlayerController extends Controller{
     
 	@Override
