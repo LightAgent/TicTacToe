@@ -8,7 +8,7 @@ public abstract class Controller {
     protected XOBoard board = new XOBoard();
     protected int validSqu = 9;
 
-    abstract protected void play(Position position);
+    abstract public void play(Position position);
 
     protected boolean checkWin() {
 
@@ -31,6 +31,9 @@ public abstract class Controller {
         xTurn = ! xTurn;
     }
     
+    public MarkerType getCurrentTurn(){
+        return xTurn ? MarkerType.X : MarkerType.O;
+    }
 
     
 }

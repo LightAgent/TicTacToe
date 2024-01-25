@@ -13,11 +13,11 @@ public class SinglePlayerController extends Controller {
     private boolean defenseFlag = false;
 
     private void computerMove() {
-        if (board.getMarker(1, 1).equals(MarkerType.EMPTY))
+        if (board.getMarker(1, 1).getMarkerType().equals(MarkerType.EMPTY))
             board.setMarker(0, 0, MarkerType.O);
         else if ((checkRowAttack() || checkColumnAttack() || checkDigonalAttack())&&attackFlag) {
             board.setMarker(attack.getX(), attack.getY(), MarkerType.O);
-        } else if ((checkRowDefinse() || checkColumnDefinse() || checkDigonalDefinse())&&defenseFlag) {
+        } else if ((checkRowDefense() || checkColumnDefense() || checkDigonalDefense())&&defenseFlag) {
             board.setMarker(defense.getX(), defense.getY(), MarkerType.O);
         } else {
             randomAttack();
@@ -35,7 +35,7 @@ public class SinglePlayerController extends Controller {
     }
 
     @Override
-    protected void play(Position position) {
+    public void play(Position position) {
         board.setMarker(position.getX(), position.getY(), xTurn ? MarkerType.X : MarkerType.O);
         // check win or draw
         if (checkWin()) {
@@ -52,11 +52,11 @@ public class SinglePlayerController extends Controller {
         
     }
 
-    private boolean checkRowDefinse() {
+    private boolean checkRowDefense() {
         for (int i = 0; i < 3; i++) {
             if (board.getMarker(i, 0).getMarkerType() == checkerX &&
                     board.getMarker(i, 1).getMarkerType() == checkerX
-                    && board.getMarker(i, 2).equals(MarkerType.EMPTY)) {
+                    && board.getMarker(i, 2).getMarkerType().equals(MarkerType.EMPTY)) {
                 defense.setX(i);
                 defense.setY(2);
                 defenseFlag = true;
@@ -64,7 +64,7 @@ public class SinglePlayerController extends Controller {
             }
             if (board.getMarker(i, 1).getMarkerType() == checkerX &&
                     board.getMarker(i, 2).getMarkerType() == checkerX
-                    && board.getMarker(i, 0).equals(MarkerType.EMPTY)) {
+                    && board.getMarker(i, 0).getMarkerType().equals(MarkerType.EMPTY)) {
                 defense.setX(i);
                 defense.setY(0);
                 defenseFlag = true;
@@ -72,7 +72,7 @@ public class SinglePlayerController extends Controller {
             }
             if (board.getMarker(i, 0).getMarkerType() == checkerX &&
                     board.getMarker(i, 2).getMarkerType() == checkerX
-                    && board.getMarker(i, 1).equals(MarkerType.EMPTY)) {
+                    && board.getMarker(i, 1).getMarkerType().equals(MarkerType.EMPTY)) {
                 defense.setX(i);
                 defense.setY(1);
                 defenseFlag = true;
@@ -82,11 +82,11 @@ public class SinglePlayerController extends Controller {
         return false;
     }
 
-    private boolean checkColumnDefinse() {
+    private boolean checkColumnDefense() {
         for (int i = 0; i < 3; i++) {
             if (board.getMarker(0, i).getMarkerType() == checkerX &&
                     board.getMarker(1, i).getMarkerType() == checkerX
-                    && board.getMarker(2, i).equals(MarkerType.EMPTY)) {
+                    && board.getMarker(2, i).getMarkerType().equals(MarkerType.EMPTY)) {
                 defense.setX(2);
                 defense.setY(i);
                 defenseFlag = true;
@@ -94,7 +94,7 @@ public class SinglePlayerController extends Controller {
             }
             if (board.getMarker(0, i).getMarkerType() == checkerX &&
                     board.getMarker(2, i).getMarkerType() == checkerX
-                    && board.getMarker(1, i).equals(MarkerType.EMPTY)) {
+                    && board.getMarker(1, i).getMarkerType().equals(MarkerType.EMPTY)) {
                 defense.setX(1);
                 defense.setY(i);
                 defenseFlag = true;
@@ -102,7 +102,7 @@ public class SinglePlayerController extends Controller {
             }
             if (board.getMarker(1, i).getMarkerType() == checkerX &&
                     board.getMarker(2, i).getMarkerType() == checkerX
-                    && board.getMarker(0, i).equals(MarkerType.EMPTY)) {
+                    && board.getMarker(0, i).getMarkerType().equals(MarkerType.EMPTY)) {
                 defense.setX(0);
                 defense.setY(i);
                 defenseFlag = true;
@@ -112,7 +112,7 @@ public class SinglePlayerController extends Controller {
         return false;
     }
 
-    private boolean checkDigonalDefinse() {
+    private boolean checkDigonalDefense() {
         if (board.getMarker(1, 1).getMarkerType() == checkerX) {
             if (board.getMarker(2, 2).getMarkerType() == checkerX) {
                 defense.setX(0);
@@ -143,7 +143,7 @@ public class SinglePlayerController extends Controller {
         for (int i = 0; i < 3; i++) {
             if (board.getMarker(i, 0).getMarkerType() == checkerO &&
                     board.getMarker(i, 1).getMarkerType() == checkerO
-                    && board.getMarker(i, 2).equals(MarkerType.EMPTY)) {
+                    && board.getMarker(i, 2).getMarkerType().equals(MarkerType.EMPTY)) {
                 attack.setX(i);
                 attack.setY(2);
                 attackFlag = true;
@@ -151,7 +151,7 @@ public class SinglePlayerController extends Controller {
             }
             if (board.getMarker(i, 1).getMarkerType() == checkerX &&
                     board.getMarker(i, 2).getMarkerType() == checkerX
-                    && board.getMarker(i, 0).equals(MarkerType.EMPTY)) {
+                    && board.getMarker(i, 0).getMarkerType().equals(MarkerType.EMPTY)) {
                 attack.setX(i);
                 attack.setY(0);
                 attackFlag = true;
@@ -159,7 +159,7 @@ public class SinglePlayerController extends Controller {
             }
             if (board.getMarker(i, 0).getMarkerType() == checkerX &&
                     board.getMarker(i, 2).getMarkerType() == checkerX
-                    && board.getMarker(i, 1).equals(MarkerType.EMPTY)) {
+                    && board.getMarker(i, 1).getMarkerType().equals(MarkerType.EMPTY)) {
                 attack.setX(i);
                 attack.setY(1);
                 attackFlag = true;
@@ -173,7 +173,7 @@ public class SinglePlayerController extends Controller {
         for (int i = 0; i < 3; i++) {
             if (board.getMarker(0, i).getMarkerType() == checkerO &&
                     board.getMarker(1, i).getMarkerType() == checkerO
-                    && board.getMarker(2, i).equals(MarkerType.EMPTY)) {
+                    && board.getMarker(2, i).getMarkerType().equals(MarkerType.EMPTY)) {
                 attack.setX(2);
                 attack.setY(i);
                 attackFlag = true;
@@ -181,7 +181,7 @@ public class SinglePlayerController extends Controller {
             }
             if (board.getMarker(0, i).getMarkerType() == checkerO &&
                     board.getMarker(2, i).getMarkerType() == checkerO
-                    && board.getMarker(1, i).equals(MarkerType.EMPTY)) {
+                    && board.getMarker(1, i).getMarkerType().equals(MarkerType.EMPTY)) {
                 attack.setX(1);
                 attack.setY(i);
                 attackFlag = true;
@@ -189,7 +189,7 @@ public class SinglePlayerController extends Controller {
             }
             if (board.getMarker(1, i).getMarkerType() == checkerO &&
                     board.getMarker(2, i).getMarkerType() == checkerO
-                    && board.getMarker(0, i).equals(MarkerType.EMPTY)) {
+                    && board.getMarker(0, i).getMarkerType().equals(MarkerType.EMPTY)) {
                 attack.setX(0);
                 attack.setY(i);
                 attackFlag = true;
@@ -227,18 +227,18 @@ public class SinglePlayerController extends Controller {
     }
 
     private void randomAttack() {
-        if (board.getMarker(0,0).equals(MarkerType.EMPTY) )
+        if (board.getMarker(0,0).getMarkerType().equals(MarkerType.EMPTY) )
             board.setMarker(0, 0, MarkerType.O);
-        else if (board.getMarker(2,2).equals(MarkerType.EMPTY) )
+        else if (board.getMarker(2,2).getMarkerType().equals(MarkerType.EMPTY) )
             board.setMarker(2, 2, MarkerType.O);
-        else if (board.getMarker(2,0).equals(MarkerType.EMPTY) )
+        else if (board.getMarker(2,0).getMarkerType().equals(MarkerType.EMPTY) )
             board.setMarker(2, 0, MarkerType.O);  
-        else if (board.getMarker(0,2).equals(MarkerType.EMPTY) )
+        else if (board.getMarker(0,2).getMarkerType().equals(MarkerType.EMPTY) )
 
             board.setMarker(1, 2, MarkerType.O);
-        else if (board.getMarker(1,2).equals(MarkerType.EMPTY) )
+        else if (board.getMarker(1,2).getMarkerType().equals(MarkerType.EMPTY) )
             board.setMarker(0, 1, MarkerType.O);
-        else if (board.getMarker(0,1).equals(MarkerType.EMPTY) )
+        else if (board.getMarker(0,1).getMarkerType().equals(MarkerType.EMPTY) )
     
         for (int i = 0; i < 3; i++) {
             board.setMarker(1, i, MarkerType.O);

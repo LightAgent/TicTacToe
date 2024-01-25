@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Image;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +12,8 @@ public class FlyweightFactory {
         if(imageIcon.get(markerType) == null){
             imageIcon.put(markerType,new ImageIcon("images\\"+markerType.toString()+".png"));
         }
-        return imageIcon.get(markerType);
+        Image img = imageIcon.get(markerType).getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(img);
+        return scaledIcon;
     }
 }
