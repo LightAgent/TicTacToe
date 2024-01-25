@@ -3,6 +3,8 @@ package view;
 import javax.swing.*;
 
 import controller.*;
+import model.Caretaker;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,9 +13,11 @@ import java.awt.event.ActionListener;
 public class StartMenu extends JFrame {
 
     private static StartMenu instance;
+    private Caretaker caretaker;
 
     private StartMenu() {
         initializeUI();
+        caretaker = new Caretaker();
     }
     public static synchronized StartMenu getInstance(){
         if(instance==null){
@@ -35,7 +39,7 @@ public class StartMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 SwingUtilities.invokeLater(() -> {
                     setVisible(false);
-                    new GameWindow(new SinglePlayerController()).setVisible(true);
+                    new GameWindow(new SinglePlayerController(caretaker)).setVisible(true);
                 });
             }
         });
@@ -45,7 +49,7 @@ public class StartMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 SwingUtilities.invokeLater(() -> {
                     setVisible(false);
-                    new GameWindow(new TwoPlayerController()).setVisible(true);
+                    new GameWindow(new TwoPlayerController(caretaker)).setVisible(true);
                 });
             }
         });
