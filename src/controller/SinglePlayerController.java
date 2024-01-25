@@ -8,8 +8,8 @@ public class SinglePlayerController extends Controller {
 
     private MarkerType checkerX = MarkerType.X;
     private MarkerType checkerO = MarkerType.O;
-    private Position attack = new Position(-1, -1);;
-    private Position defense = new Position(-1, -1);;
+    private Position attack = new Position(-1, -1);
+    private Position defense = new Position(-1, -1);
     private boolean attackFlag = false;
     private boolean defenseFlag = false;
 
@@ -35,6 +35,8 @@ public class SinglePlayerController extends Controller {
 
     @Override
     public GameState play(Position position) {
+        System.out.println("Position X: "+position.getX()+" Y: "+position.getY());
+
         board.setMarker(position.getX(), position.getY(),MarkerType.X);
         remainingSquares--;
         // check game state
@@ -43,9 +45,9 @@ public class SinglePlayerController extends Controller {
         // computer's turn
         computerMove();
         remainingSquares--;
+        toggleTurn();
         if(getGameState()!=GameState.IN_PROGRESS) return getGameState();
 
-        toggleTurn();
 
         return getGameState();
     }
@@ -147,16 +149,16 @@ public class SinglePlayerController extends Controller {
                 attackFlag = true;
                 return true;
             }
-            if (board.getMarker(i, 1).getMarkerType() == checkerX &&
-                    board.getMarker(i, 2).getMarkerType() == checkerX
+            if (board.getMarker(i, 1).getMarkerType() == checkerO &&
+                    board.getMarker(i, 2).getMarkerType() == checkerO
                     && board.getMarker(i, 0).getMarkerType().equals(MarkerType.EMPTY)) {
                 attack.setX(i);
                 attack.setY(0);
                 attackFlag = true;
                 return true;
             }
-            if (board.getMarker(i, 0).getMarkerType() == checkerX &&
-                    board.getMarker(i, 2).getMarkerType() == checkerX
+            if (board.getMarker(i, 0).getMarkerType() == checkerO &&
+                    board.getMarker(i, 2).getMarkerType() == checkerO
                     && board.getMarker(i, 1).getMarkerType().equals(MarkerType.EMPTY)) {
                 attack.setX(i);
                 attack.setY(1);
@@ -198,28 +200,32 @@ public class SinglePlayerController extends Controller {
     }
 
     private boolean checkDigonalAttack() {
-        if (board.getMarker(1, 1).getMarkerType() == checkerO) {
-            if (board.getMarker(2, 2).getMarkerType() == checkerO) {
-                attack.setX(0);
-                attack.setY(0);
-                attackFlag = true;
-                return true;
-            } else if (board.getMarker(0, 0).getMarkerType() == checkerO) {
-                attack.setX(2);
-                attack.setY(2);
-                attackFlag = true;
-                return true;
-            } else if (board.getMarker(2, 0).getMarkerType() == checkerO) {
-                attack.setX(0);
-                attack.setY(2);
-                attackFlag = true;
-                return true;
-            } else if (board.getMarker(0, 2).getMarkerType() == checkerO) {
-                attack.setX(2);
-                attack.setY(0);
-                attackFlag = true;
-                return true;
-            }
+        if (board.getMarker(1, 1).getMarkerType() != checkerO) return false;
+        
+        if (board.getMarker(2, 2).getMarkerType() == checkerO) {
+            if(board.getMarker(0, 0).getMarkerType()!=MarkerType.EMPTY) return false;
+            attack.setX(0);
+            attack.setY(0);
+            attackFlag = true;
+            return true;
+        } else if (board.getMarker(0, 0).getMarkerType() == checkerO) {
+            if(board.getMarker(2, 2).getMarkerType()!=MarkerType.EMPTY) return false;
+            attack.setX(2);
+            attack.setY(2);
+            attackFlag = true;
+            return true;
+        } else if (board.getMarker(2, 0).getMarkerType() == checkerO) {
+            if(board.getMarker(0, 2).getMarkerType()!=MarkerType.EMPTY) return false;
+            attack.setX(0);
+            attack.setY(2);
+            attackFlag = true;
+            return true;
+        } else if (board.getMarker(0, 2).getMarkerType() == checkerO) {
+            if(board.getMarker(2, 0).getMarkerType()!=MarkerType.EMPTY) return false;
+            attack.setX(2);
+            attack.setY(0);
+            attackFlag = true;
+            return true;
         }
         return false;
     }
