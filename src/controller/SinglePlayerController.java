@@ -1,5 +1,6 @@
 package controller;
 
+import model.GameState;
 import model.MarkerType;
 import model.Position;
 
@@ -7,49 +8,46 @@ public class SinglePlayerController extends Controller {
 
     private MarkerType checkerX = MarkerType.X;
     private MarkerType checkerO = MarkerType.O;
-    private Position attack;
-    private Position defense;
+    private Position attack = new Position(-1, -1);;
+    private Position defense = new Position(-1, -1);;
     private boolean attackFlag = false;
     private boolean defenseFlag = false;
 
     private void computerMove() {
-        if (board.getMarker(1, 1).getMarkerType().equals(MarkerType.EMPTY))
-            board.setMarker(0, 0, MarkerType.O);
+        if (board.getMarker(1, 1).getMarkerType().equals(MarkerType.EMPTY)){
+            board.setMarker(1, 1, MarkerType.O);
+            System.out.println("Center");
+        }
         else if ((checkRowAttack() || checkColumnAttack() || checkDigonalAttack())&&attackFlag) {
             board.setMarker(attack.getX(), attack.getY(), MarkerType.O);
+            System.out.println("Attack");
         } else if ((checkRowDefense() || checkColumnDefense() || checkDigonalDefense())&&defenseFlag) {
             board.setMarker(defense.getX(), defense.getY(), MarkerType.O);
+            System.out.println("Defense");
         } else {
             randomAttack();
+            System.out.println("Random ATTACK");
         }
         attackFlag = false;
         defenseFlag = false;
-        if (checkWin()) {
-            // winng opration
-            gameEnded = true;
-        }
-        if (checkDraw()) {
-            gameEnded = true;
-            // draw
-        }
+        
     }
 
     @Override
-    public void play(Position position) {
-        board.setMarker(position.getX(), position.getY(), xTurn ? MarkerType.X : MarkerType.O);
-        // check win or draw
-        if (checkWin()) {
-            // winng opration
-            gameEnded = true;
-        }
-        if (checkDraw()) {
-            gameEnded = true;
-            // draw
-        }
+    public GameState play(Position position) {
+        board.setMarker(position.getX(), position.getY(),MarkerType.X);
+        remainingSquares--;
+        // check game state
+        if(getGameState()!=GameState.IN_PROGRESS) return getGameState();
+        
         // computer's turn
         computerMove();
+        remainingSquares--;
+        if(getGameState()!=GameState.IN_PROGRESS) return getGameState();
+
         toggleTurn();
-        
+
+        return getGameState();
     }
 
     private boolean checkRowDefense() {
@@ -227,21 +225,15 @@ public class SinglePlayerController extends Controller {
     }
 
     private void randomAttack() {
-        if (board.getMarker(0,0).getMarkerType().equals(MarkerType.EMPTY) )
-            board.setMarker(0, 0, MarkerType.O);
-        else if (board.getMarker(2,2).getMarkerType().equals(MarkerType.EMPTY) )
-            board.setMarker(2, 2, MarkerType.O);
-        else if (board.getMarker(2,0).getMarkerType().equals(MarkerType.EMPTY) )
-            board.setMarker(2, 0, MarkerType.O);  
-        else if (board.getMarker(0,2).getMarkerType().equals(MarkerType.EMPTY) )
-
-            board.setMarker(1, 2, MarkerType.O);
-        else if (board.getMarker(1,2).getMarkerType().equals(MarkerType.EMPTY) )
-            board.setMarker(0, 1, MarkerType.O);
-        else if (board.getMarker(0,1).getMarkerType().equals(MarkerType.EMPTY) )
-    
+        
         for (int i = 0; i < 3; i++) {
-            board.setMarker(1, i, MarkerType.O);
+            for (int j = 0; j < 3; j++) {
+                if(board.getBoard()[i][j].getMarkerType()==MarkerType.EMPTY){
+                    board.setMarker(i, j, MarkerType.O);
+                    return;
+                }
             }
         }
+    
     }
+}
